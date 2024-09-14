@@ -80,7 +80,11 @@ const distConfig = baseConfig.clone()
         },
         output: {
             path: path.resolve(__dirname, 'dist')
-        }
+        },
+        // TODO: Add redux, react-redux and other libs that are expected to be provided by the integrator
+        // TODO: Also add those to peerDependencies and remove from `dependencies` (but still leave them in
+        //       `devDependencies`)
+        externals: ['react', 'react-dom']
     })
     .addPlugin(
         new CopyWebpackPlugin({
@@ -93,6 +97,17 @@ const distConfig = baseConfig.clone()
             ]
         })
     );
+
+// build the shipping library in `dist/` bundled with react, react-dom, redux, etc.
+const distStandaloneConfig = baseConfig.clone()
+    .merge({
+        entry: {
+            'scratch-gui-standalone': path.join(__dirname, 'src/index-standalone.tsx')
+        },
+        output: {
+            path: path.resolve(__dirname, 'dist')
+        }
+    });
 
 // build the examples and debugging tools in `build/`
 const buildConfig = baseConfig.clone()
@@ -152,5 +167,5 @@ const buildConfig = baseConfig.clone()
 const buildDist = process.env.NODE_ENV === 'production' || process.env.BUILD_MODE === 'dist';
 
 module.exports = buildDist ?
-    [buildConfig.get(), distConfig.get()] :
+    [buildConfig.get(), distConfig.get(), distStandaloneConfig.get()] :
     buildConfig.get();

@@ -11,6 +11,16 @@
   },
   "main": "./dist/scratch-gui.js",
   "types": "./dist/types/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/src/index.d.ts",
+      "default": "./dist/scratch-gui.js"
+    },
+    "./standalone": {
+      "types": "./dist/types/src/index-standalone.d.ts",
+      "default": "./dist/scratch-gui-standalone.js"
+    }
+  },
   "scripts": {
     "build": "npm run clean && webpack",
     "clean": "rimraf ./build ./dist",

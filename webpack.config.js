@@ -13,6 +13,7 @@ const baseConfig = new ScratchWebpackConfigBuilder(
     {
         rootPath: path.resolve(__dirname),
         enableReact: true,
+        enableTs: true,
         shouldSplitChunks: false
     })
     .setTarget('browserslist')
@@ -75,7 +76,7 @@ if (!process.env.CI) {
 const distConfig = baseConfig.clone()
     .merge({
         entry: {
-            'scratch-gui': path.join(__dirname, 'src/index.js')
+            'scratch-gui': path.join(__dirname, 'src/index.ts')
         },
         output: {
             path: path.resolve(__dirname, 'dist')
